@@ -27,9 +27,6 @@
     "@storybook/components": ">= 5.x",
     "@storybook/core-events": ">= 5.x"
   },
-  "dependencies": {
-    "fast-deep-equal": "^3.0.0"
-  },
   "devDependencies": {
     "@storybook/addons": "5.3.8",
     "@storybook/api": "5.3.8",
@@ -39,7 +36,6 @@
     "@typescript-eslint/eslint-plugin": "2.17.0",
     "@typescript-eslint/parser": "2.17.0",
     "auto": "9.9.0",
-    "auto-config-hipstersmoothie": "3.0.0",
     "eslint": "6.5.0",
     "eslint-config-prettier": "6.9.0",
     "eslint-config-xo": "0.27.1",
@@ -53,9 +49,6 @@
     "react": "16.11.0",
     "react-dom": "16.11.0",
     "typescript": "3.7.5"
-  },
-  "auto": {
-    "extends": "hipstersmoothie"
   },
   "prettier": {
     "singleQuote": true

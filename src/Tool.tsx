@@ -1,7 +1,11 @@
 import * as React from 'react';
 import { IconButton } from '@storybook/components';
 import { API, useAddonState } from '@storybook/api';
-import { Direction_MODE_EVENT_NAME, ADDON_ID } from './constants';
+import {
+  Direction_MODE_EVENT_NAME,
+  ADDON_ID,
+  Direction_SET_MODE_EVENT_NAME
+} from './constants';
 import { Direction } from './typings';
 import DirectionLTR from './icons/DirectionLTR';
 import DirectionRTL from './icons/DirectionRTL';
@@ -23,6 +27,12 @@ export const PageDirection: React.FunctionComponent<
   React.useEffect(() => {
     props.api.getChannel().emit(Direction_MODE_EVENT_NAME, direction);
   }, [direction, props.api]);
+
+  React.useEffect(() => {
+    const chan = props.api.getChannel();
+    props.api.on(Direction_SET_MODE_EVENT_NAME, setDirection);
+    return () => chan.off(Direction_MODE_EVENT_NAME, setDirection);
+  }, [props.api, setDirection]);
 
   return (
     <IconButton

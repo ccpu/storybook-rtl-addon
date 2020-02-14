@@ -31,7 +31,7 @@ Use hook to get current direction:
 ```js
 import { useDirection } from 'storybook-rtl-addon';
 
-function MyComponent(props) {
+function MyComponent({ children }) {
   const direction = useDirection();
   return <div dir={direction}>{children}</div>;
 }
@@ -56,7 +56,7 @@ import { Direction_MODE_EVENT_NAME } from 'storybook-rtl-addon';
 const channel = addons.getChannel();
 
 // create a component that listens for the event change
-function ThemeWrapper(props) {
+function MyComponent({ children }) {
   // this example uses hook but you can also use class component as well
   const [direction, setDirection] = useState();
 

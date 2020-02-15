@@ -30,7 +30,7 @@ export const PageDirection: React.FunctionComponent<
 
   React.useEffect(() => {
     const chan = props.api.getChannel();
-    props.api.on(Direction_SET_MODE_EVENT_NAME, setDirection);
+    chan.on(Direction_SET_MODE_EVENT_NAME, setDirection);
     return () => chan.off(Direction_MODE_EVENT_NAME, setDirection);
   }, [props.api, setDirection]);
 

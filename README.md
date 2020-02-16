@@ -24,6 +24,20 @@ Then, add following content to .storybook/addons.js
 import 'storybook-rtl-addon/register';
 ```
 
+## Configuration
+
+Set default direction in your `config.js` file:
+
+```js
+import { addParameters } from '@storybook/react';
+
+addParameters({
+  defaultDirection: 'ltr'
+});
+```
+
+> If this addon used in conjunction with [storybook-addon-locale](https://www.npmjs.com/package/storybook-addon-locale) the value of `defaultDirection` will be ignored as `storybook-addon-locale` will take over the default direction.
+
 ## Story integration
 
 Use hook to get current direction:
@@ -31,8 +45,8 @@ Use hook to get current direction:
 ```js
 import { useDirection } from 'storybook-rtl-addon';
 
-function MyComponent({ children }) {
-  const direction = useDirection();
+function MyComponent(context) {
+  const direction = useDirection(context);
   return <div dir={direction}>{children}</div>;
 }
 ```

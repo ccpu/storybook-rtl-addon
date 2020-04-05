@@ -19,7 +19,8 @@
   "scripts": {
     "lint": "eslint --ext .ts --ext .tsx src/**",
     "build": "tsc",
-    "watch": "tsc --watch"
+    "watch": "tsc --watch",
+    "prepare": "npm run build"
   },
   "peerDependencies": {
     "@storybook/addons": ">= 5.x",

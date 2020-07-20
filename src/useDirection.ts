@@ -1,9 +1,6 @@
 import React from 'react';
 import addons, { StoryContext } from '@storybook/addons';
-import {
-  Direction_MODE_EVENT_NAME,
-  // Direction_SET_MODE_EVENT_NAME
-} from './constants';
+import { Direction_MODE_EVENT_NAME } from './constants';
 import { Direction } from './typings';
 import { getDefault } from './utils';
 import { CHANGE } from '@storybook/addon-knobs/dist/shared';
@@ -33,7 +30,7 @@ export function useDirection(context: StoryContext): Direction {
 
     chan.on(Direction_MODE_EVENT_NAME, handleChange);
     return () => chan.off(Direction_MODE_EVENT_NAME, handleChange);
-  }, [direction]);
+  }, [context.parameters, direction]);
 
   return direction;
 }

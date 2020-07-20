@@ -1,5 +1,6 @@
 import React from 'react';
 import { text, withKnobs } from '@storybook/addon-knobs';
+import { useDirection } from '../dist';
 
 export default {
   component: 'direction',
@@ -8,6 +9,11 @@ export default {
   decorators: [withKnobs],
 };
 
-export function WithDirection() {
-  return <div>{text('direction', 'ltr')}</div>;
+export function WithDirection(context) {
+  const dir = useDirection(context);
+  return (
+    <div>
+      {text('direction', 'ltr')}-{dir}
+    </div>
+  );
 }

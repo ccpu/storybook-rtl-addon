@@ -61,8 +61,9 @@ export const PageDirection: React.FunctionComponent<PageDirectionProps> = (
       const data = api.getCurrentStoryData();
       if (!data) return;
       if (api.getParameters(data.id)[SET_DIRECTION_KNOB]) {
-        api.setQueryParams({ 'knob-direction': direction });
+        const query = { 'knob-direction': direction };
         api.emit(CHANGE, { name: 'direction', value: direction });
+        api.setQueryParams(query);
       }
     }
   }, [api, direction, handleChange]);

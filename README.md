@@ -32,7 +32,7 @@ Set default direction in your `config.js` file:
 import { addParameters } from '@storybook/react';
 
 addParameters({
-  defaultDirection: 'ltr'
+  defaultDirection: 'ltr',
 });
 ```
 
@@ -82,4 +82,21 @@ function MyComponent({ children }) {
 
   return <div dir={direction}>{children}</div>;
 }
+```
+
+## Options
+
+- setDirectionKnob
+
+### setDirectionKnob
+
+When set to true the `knob-direction` will be set
+
+```js
+import { addParameters } from '@storybook/react';
+
+addParameters({
+  defaultDirection: 'ltr',
+  setDirectionKnob: true,
+});
 ```

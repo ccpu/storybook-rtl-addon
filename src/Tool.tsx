@@ -5,13 +5,15 @@ import { API } from '@storybook/api';
 import {
   Direction_MODE_EVENT_NAME,
   DIRECTION_PARAM_KEY,
-  Direction_SET_MODE_EVENT_NAME
+  Direction_SET_MODE_EVENT_NAME,
+  SET_DIRECTION_KNOB,
 } from './constants';
 import { Direction } from './typings';
 import DirectionLTR from './icons/DirectionLTR';
 import DirectionRTL from './icons/DirectionRTL';
 import { getParamVal } from './utils';
 import { LOCALES_PARAM_KEY } from 'storybook-addon-locale/dist/constants';
+import { CHANGE } from '@storybook/addon-knobs/dist/shared';
 
 interface PageDirectionProps {
   api: API;
@@ -21,9 +23,9 @@ const emitEvent = (api: API, direction: Direction) => {
   api.getChannel().emit(Direction_MODE_EVENT_NAME, direction);
 };
 
-export const PageDirection: React.FunctionComponent<
-  PageDirectionProps
-> = props => {
+export const PageDirection: React.FunctionComponent<PageDirectionProps> = (
+  props
+) => {
   const { api } = props;
   const [direction, setDirection] = useState<Direction>('ltr');
 
@@ -33,7 +35,7 @@ export const PageDirection: React.FunctionComponent<
         setDirection(dir);
         emitEvent(api, dir);
       } else {
-        setDirection(state => {
+        setDirection((state) => {
           const newDir = state === 'rtl' ? 'ltr' : 'rtl';
           emitEvent(api, newDir);
           return newDir;
@@ -53,6 +55,17 @@ export const PageDirection: React.FunctionComponent<
     chan.on(Direction_SET_MODE_EVENT_NAME, handleChange);
     return () => chan.off(Direction_SET_MODE_EVENT_NAME, handleChange);
   }, [api, handleChange]);
+
+  useEffect(() => {
+    if (direction) {
+      const data = api.getCurrentStoryData();
+      if (!data) return;
+      if (api.getParameters(data.id)[SET_DIRECTION_KNOB]) {
+        api.setQueryParams({ 'knob-direction': direction });
+        api.emit(CHANGE, { name: 'direction', value: direction });
+      }
+    }
+  }, [api, direction, handleChange]);
 
   useEffect(() => {
     const channel = api.getChannel();

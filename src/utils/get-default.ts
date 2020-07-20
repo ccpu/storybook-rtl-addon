@@ -3,7 +3,7 @@ import { StoryContext } from '@storybook/addons';
 import { getParamVal } from './params';
 
 export const getDefault = (data?: StoryContext) => {
-  if (!data) return undefined;
+  if (!data) return 'ltr';
   const defaultLocale = getParamVal(data, DIRECTION_PARAM_KEY);
-  return defaultLocale;
+  return defaultLocale || 'ltr';
 };

@@ -1,6 +1,6 @@
 {
   "name": "storybook-rtl-addon",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Toggle between ltr-rtl",
   "main": "dist/index.js",
   "source": "index.ts",
@@ -17,7 +17,7 @@
     "url": "https://github.com/cyrus-d/storybook-rtl-addon"
   },
   "scripts": {
-    "storybook": "start-storybook --port 9010 --ci",
+    "storybook": "start-storybook --port 6006 --ci",
     "lint": "eslint --ext .ts --ext .tsx src/**",
     "build": "tsc",
     "watch": "tsc --watch",
@@ -74,6 +74,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@storybook/addon-knobs": "^5.3.19",
     "storybook-addon-locale": "^0.3.1"
   }
 }

@@ -1,13 +1,13 @@
 import React from 'react';
-import { useDirection } from 'storybook-rtl-addon';
+import { text, withKnobs } from '@storybook/addon-knobs';
 
 export default {
   component: 'direction',
   title: 'direction',
-  parameters: { locales: ['en', 'fr'] }
+  parameters: { setDirectionKnob: true },
+  decorators: [withKnobs],
 };
 
-export function WithDirection(context) {
-  const direction = useDirection(context);
-  return <div dir={direction}>{direction}</div>;
+export function WithDirection() {
+  return <div>{text('direction', 'ltr')}</div>;
 }

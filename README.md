@@ -96,7 +96,6 @@ When set to true the `knob-direction` will be set
 import { addParameters } from '@storybook/react';
 
 addParameters({
-  defaultDirection: 'ltr',
   setDirectionKnob: true,
 });
 ```

@@ -13,7 +13,7 @@ import DirectionLTR from './icons/DirectionLTR';
 import DirectionRTL from './icons/DirectionRTL';
 import { getParamVal } from './utils';
 import { LOCALES_PARAM_KEY } from 'storybook-addon-locale/dist/constants';
-import { CHANGE } from '@storybook/addon-knobs/dist/shared';
+import { CHANGE, SET } from '@storybook/addon-knobs/dist/shared';
 
 interface PageDirectionProps {
   api: API;
@@ -28,6 +28,7 @@ export const PageDirection: React.FunctionComponent<PageDirectionProps> = (
 ) => {
   const { api } = props;
   const [direction, setDirection] = useState<Direction>('ltr');
+  const data = api.getCurrentStoryData();
 
   const handleChange = useCallback(
     (dir?: Direction) => {
@@ -58,7 +59,6 @@ export const PageDirection: React.FunctionComponent<PageDirectionProps> = (
 
   useEffect(() => {
     if (direction) {
-      const data = api.getCurrentStoryData();
       if (!data) return;
       if (api.getParameters(data.id)[SET_DIRECTION_KNOB]) {
         const query = { 'knob-direction': direction };
@@ -66,7 +66,26 @@ export const PageDirection: React.FunctionComponent<PageDirectionProps> = (
         api.setQueryParams(query);
       }
     }
-  }, [api, direction, handleChange]);
+  }, [api, data, direction, handleChange]);
+
+  useEffect(() => {
+    if (!data || !api.getParameters(data.id)[SET_DIRECTION_KNOB]) return;
+
+    const handleSet = (ev: any) => {
+      if (!ev.knobs.direction) return;
+      const dir = ev.knobs.direction.value;
+      if (dir === 'ltr' || dir === 'rtl') {
+        emitEvent(api, dir);
+        setDirection(ev.knobs.direction.value);
+      }
+    };
+
+    api.on(SET, handleSet);
+
+    return () => {
+      api.off(SET, handleSet);
+    };
+  }, [api, data, handleChange]);
 
   useEffect(() => {
     const channel = api.getChannel();

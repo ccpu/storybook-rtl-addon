@@ -1,6 +1,6 @@
 {
   "name": "storybook-rtl-addon",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "description": "Toggle between ltr-rtl",
   "main": "dist/index.js",
   "source": "index.ts",

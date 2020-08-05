@@ -11,7 +11,7 @@ import {
 import { Direction } from './typings';
 import DirectionLTR from './icons/DirectionLTR';
 import DirectionRTL from './icons/DirectionRTL';
-import { getParamVal } from './utils';
+import { getParamVal, getKnobDirection } from './utils';
 import { LOCALES_PARAM_KEY } from 'storybook-addon-locale/dist/constants';
 import { CHANGE, SET } from '@storybook/addon-knobs/dist/shared';
 
@@ -61,6 +61,8 @@ export const PageDirection: React.FunctionComponent<PageDirectionProps> = (
     if (direction) {
       if (!data) return;
       if (api.getParameters(data.id)[SET_DIRECTION_KNOB]) {
+        const dirKnob = getKnobDirection();
+        if (dirKnob === direction) return;
         const query = { 'knob-direction': direction };
         api.emit(CHANGE, { name: 'direction', value: direction });
         api.setQueryParams(query);

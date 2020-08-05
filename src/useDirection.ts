@@ -2,7 +2,7 @@ import React from 'react';
 import addons, { StoryContext } from '@storybook/addons';
 import { Direction_MODE_EVENT_NAME, SET_DIRECTION_KNOB } from './constants';
 import { Direction } from './typings';
-import { getDefault, getParamVal } from './utils';
+import { getDefault, getParamVal, getKnobDirection } from './utils';
 import { CHANGE } from '@storybook/addon-knobs/dist/shared';
 /**
  * Returns the current state of storybook's direction
@@ -20,9 +20,8 @@ export function useDirection(context: StoryContext): Direction {
     };
 
     if (getParamVal(context, SET_DIRECTION_KNOB)) {
-      const urlParams = new URLSearchParams(window.location.search);
-      const dirKnob = urlParams.get('knob-direction');
-      if (dirKnob) {
+      const dirKnob = getKnobDirection();
+      if (dirKnob && direction !== dirKnob) {
         handleChange(dirKnob as Direction);
         chan.emit(Direction_MODE_EVENT_NAME, dirKnob);
         chan.emit(CHANGE, { name: 'direction', value: direction });

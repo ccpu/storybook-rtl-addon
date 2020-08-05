@@ -24,7 +24,7 @@ export function useDirection(context: StoryContext): Direction {
       if (dirKnob && direction !== dirKnob) {
         handleChange(dirKnob as Direction);
         chan.emit(Direction_MODE_EVENT_NAME, dirKnob);
-        chan.emit(CHANGE, { name: 'direction', value: direction });
+        chan.emit(CHANGE, { name: 'direction', value: dirKnob });
       }
     }
 

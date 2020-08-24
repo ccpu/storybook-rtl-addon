@@ -3,7 +3,7 @@ import addons, { StoryContext } from '@storybook/addons';
 import { Direction_MODE_EVENT_NAME, SET_DIRECTION_KNOB } from './constants';
 import { Direction } from './typings';
 import { getDefault, getParamVal, getKnobDirection } from './utils';
-import { CHANGE } from '@storybook/addon-knobs/dist/shared';
+
 /**
  * Returns the current state of storybook's direction
  */
@@ -24,7 +24,6 @@ export function useDirection(context: StoryContext): Direction {
       if (dirKnob && direction !== dirKnob) {
         handleChange(dirKnob as Direction);
         chan.emit(Direction_MODE_EVENT_NAME, dirKnob);
-        chan.emit(CHANGE, { name: 'direction', value: dirKnob });
       }
     }
 

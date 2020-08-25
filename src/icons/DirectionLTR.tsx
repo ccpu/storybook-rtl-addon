@@ -4,7 +4,7 @@ const DirectionLTR = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     version="1.1"
-    viewBox="2 -4 19 22"
+    viewBox="2 0 19 22"
     enableBackground="new 0 0 129 129"
     height={22}
     style={{

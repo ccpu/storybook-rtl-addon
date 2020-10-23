@@ -13,6 +13,16 @@ export function useDirection(context: StoryContext): Direction {
   );
 
   React.useEffect(() => {
+    if (direction) {
+      document.body.dir = direction;
+    }
+
+    return () => {
+      document.body.dir = '';
+    };
+  }, [direction]);
+
+  React.useEffect(() => {
     const chan = addons.getChannel();
 
     const handleChange = (dir: Direction) => {
@@ -28,7 +38,9 @@ export function useDirection(context: StoryContext): Direction {
     }
 
     chan.on(Direction_MODE_EVENT_NAME, handleChange);
-    return () => chan.off(Direction_MODE_EVENT_NAME, handleChange);
+    return () => {
+      chan.off(Direction_MODE_EVENT_NAME, handleChange);
+    };
   }, [context, context.parameters, direction]);
 
   return direction;

@@ -18,25 +18,14 @@ or with yarn:
 yarn add -D storybook-rtl-addon
 ```
 
-Then, add following content to .storybook/addons.js
+Then, add following content to .storybook/main.js
 
 ```js
-import 'storybook-rtl-addon/register';
+module.exports = {
+  stories: ['../**/*.stories.[tj]sx'],
+  addons: ['storybook-rtl-addon'],
+};
 ```
-
-## Configuration
-
-Set default direction in your `config.js` file:
-
-```js
-import { addParameters } from '@storybook/react';
-
-addParameters({
-  defaultDirection: 'ltr',
-});
-```
-
-> If this addon used in conjunction with [storybook-addon-locale](https://www.npmjs.com/package/storybook-addon-locale) the value of `defaultDirection` will be ignored as `storybook-addon-locale` will take over the default direction.
 
 ## Story integration
 
@@ -93,9 +82,8 @@ function MyComponent({ children }) {
 When set to true the `knob-direction` will be set
 
 ```js
-import { addParameters } from '@storybook/react';
-
-addParameters({
-  setDirectionKnob: true,
-});
+// preview.js
+export const parameters = {
+  setLocaleToKnob: true,
+};
 ```

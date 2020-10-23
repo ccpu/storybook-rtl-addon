@@ -1,7 +1,6 @@
 import React from 'react';
 import { select, withKnobs } from '@storybook/addon-knobs';
 import { useDirection } from '../dist';
-import { listenerCount } from 'process';
 
 export default {
   component: 'direction',
@@ -10,11 +9,17 @@ export default {
   decorators: [withKnobs],
 };
 
-export function WithDirection(context) {
+const Component = ({ context }) => {
   const dir = useDirection(context);
   return (
     <div>
-      {select('direction', { ltr: 'ltr', rtl: 'rtl' }, 'ltr')}-{dir}
+      {select('direction', { ltr: 'ltr', rtl: 'rtl' }, 'ltr') + '-' + dir}
     </div>
   );
-}
+};
+
+export const withDirection = (context) => <Component context={context} />;
+
+export const withNoDirection = () => {
+  return <div>No direction</div>;
+};

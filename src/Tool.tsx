@@ -4,15 +4,14 @@ import { IconButton } from '@storybook/components';
 import { API } from '@storybook/api';
 import {
   Direction_MODE_EVENT_NAME,
-  DIRECTION_PARAM_KEY,
   Direction_SET_MODE_EVENT_NAME,
   SET_DIRECTION_KNOB,
 } from './constants';
 import { Direction } from './typings';
 import DirectionLTR from './icons/DirectionLTR';
 import DirectionRTL from './icons/DirectionRTL';
-import { getParamVal, getKnobDirection } from './utils';
-import { LOCALES_PARAM_KEY } from 'storybook-addon-locale/dist/constants';
+import { getKnobDirection } from './utils';
+
 import { CHANGE, SET } from '@storybook/addon-knobs/dist/shared';
 
 interface PageDirectionProps {
@@ -27,57 +26,59 @@ export const PageDirection: React.FunctionComponent<PageDirectionProps> = (
   props
 ) => {
   const { api } = props;
-  const [direction, setDirection] = useState<Direction>('ltr');
+  const [direction, setDirection] = useState<Direction>();
   const data = api.getCurrentStoryData();
+  const currentStory = React.useRef<string>();
+  const hasDirectionKnob = React.useRef<boolean>(false);
 
-  const handleChange = useCallback(
-    (dir?: Direction) => {
-      if (dir && typeof dir === 'string') {
-        setDirection(dir);
-        emitEvent(api, dir);
-      } else {
-        setDirection((state) => {
-          const newDir = state === 'rtl' ? 'ltr' : 'rtl';
-          emitEvent(api, newDir);
-          return newDir;
-        });
-      }
-    },
-    [api]
-  );
+  const shouldSetKnob =
+    data && api.getParameters(data.id)[SET_DIRECTION_KNOB] === true;
 
-  const handleDefault = useCallback(() => {
-    const def = getParamVal(api.getCurrentStoryData(), DIRECTION_PARAM_KEY);
-    if (def) handleChange(def);
-  }, [api, handleChange]);
+  const handleChange = useCallback(() => {
+    setDirection((state) => {
+      const newDir = !state || state === 'ltr' ? 'rtl' : 'ltr';
+      return newDir;
+    });
+  }, []);
 
   useEffect(() => {
     const chan = api.getChannel();
+
     chan.on(Direction_SET_MODE_EVENT_NAME, handleChange);
+
     return () => chan.off(Direction_SET_MODE_EVENT_NAME, handleChange);
   }, [api, handleChange]);
 
   useEffect(() => {
+    if (!shouldSetKnob || !hasDirectionKnob.current) return;
+
     if (direction) {
-      if (!data) return;
-      if (api.getParameters(data.id)[SET_DIRECTION_KNOB]) {
-        const dirKnob = getKnobDirection();
-        if (dirKnob === direction) return;
-        const query = { 'knob-direction': direction };
-        api.emit(CHANGE, { name: 'direction', value: direction });
-        api.setQueryParams(query);
-      }
+      const dirKnob = getKnobDirection();
+      if (dirKnob === direction) return;
+      const query = { 'knob-direction': direction };
+
+      api.emit(CHANGE, { name: 'direction', value: direction });
+      api.setQueryParams(query);
     }
-  }, [api, data, direction, handleChange]);
+  }, [api, direction, shouldSetKnob]);
+
+  React.useEffect(() => {
+    if (direction) {
+      emitEvent(api, direction);
+    }
+  }, [api, direction]);
 
   useEffect(() => {
-    if (!data || !api.getParameters(data.id)[SET_DIRECTION_KNOB]) return;
-
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleSet = (ev: any) => {
+      if (!shouldSetKnob) return;
       if (!ev.knobs.direction) return;
+
       const dir = ev.knobs.direction.value;
+
       if (dir === 'ltr' || dir === 'rtl') {
-        emitEvent(api, dir);
+        hasDirectionKnob.current = true;
+
         setDirection(ev.knobs.direction.value);
       }
     };
@@ -87,43 +88,27 @@ export const PageDirection: React.FunctionComponent<PageDirectionProps> = (
     return () => {
       api.off(SET, handleSet);
     };
-  }, [api, data, handleChange]);
+  }, [api, shouldSetKnob]);
 
-  useEffect(() => {
-    const channel = api.getChannel();
+  React.useEffect(() => {
+    if (!data || currentStory.current === data.id) return;
 
-    function handleEvents() {
-      const localeAddonPropVal = getParamVal(
-        api.getCurrentStoryData(),
-        LOCALES_PARAM_KEY
-      );
-      /*
-        to prevent multiple event emit handleDefault will not be called if locale addon install.
-        instead locale addon will  emit Direction_SET_MODE_EVENT_NAME
-      */
-      if (localeAddonPropVal && localeAddonPropVal !== false) return;
-      handleDefault();
-    }
-
-    channel.on('docsRendered', handleEvents);
-    channel.on('storyRendered', handleEvents);
-    return () => {
-      channel.removeListener('docsRendered', handleEvents);
-      channel.removeListener('storyRendered', handleEvents);
-    };
-  }, [api, handleDefault]);
+    currentStory.current = data.id;
+    hasDirectionKnob.current = false;
+    setDirection(undefined);
+  }, [api, data]);
 
   return (
     <IconButton
       key="direction-mode"
       title={
-        direction === 'ltr'
+        !direction || direction === 'ltr'
           ? 'Change direction to rtl'
           : 'Change direction to ltr'
       }
       onClick={handleChange}
     >
-      {direction === 'ltr' ? <DirectionLTR /> : <DirectionRTL />}
+      {!direction || direction === 'ltr' ? <DirectionLTR /> : <DirectionRTL />}
     </IconButton>
   );
 };

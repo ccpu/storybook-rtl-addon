@@ -17,7 +17,7 @@
     "url": "https://github.com/cyrus-d/storybook-rtl-addon"
   },
   "scripts": {
-    "storybook": "start-storybook --port 6006 --ci",
+    "storybook": "start-storybook --port 6006 --ci --no-manager-cache",
     "lint": "eslint --ext .ts --ext .tsx src/**",
     "build": "tsc",
     "watch": "tsc --watch",

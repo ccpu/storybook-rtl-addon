@@ -6417,9 +6417,9 @@ is-descriptor@^1.0.0, is-descriptor@^1.0.2:
     kind-of "^6.0.2"
 
 is-docker@^2.0.0:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/is-docker/-/is-docker-2.1.1.tgz#4125a88e44e450d384e09047ede71adc2d144156"
-  integrity sha512-ZOoqiXfEwtGknTiuDEy8pN2CfE3TxMHprvNer1mXiqwkOT77Rw3YVrUQ52EqAOU3QAWDQ+bQdx7HJzrv7LS2Hw==
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/is-docker/-/is-docker-2.2.0.tgz#b037c8815281edaad6c2562648a5f5f18839d5f7"
+  integrity sha512-K4GwB4i/HzhAzwP/XSlspzRdFTI9N8OxJOyOU7Y5Rz+p+WBokXWVWblaJeBkggthmoSV0OoGTH5thJNvplpkvQ==
 
 is-extendable@^0.1.0, is-extendable@^0.1.1:
   version "0.1.1"
@@ -7334,9 +7334,9 @@ lint-staged@10.5.4:
     stringify-object "^3.3.0"
 
 listr2@^3.2.2:
-  version "3.4.5"
-  resolved "https://registry.yarnpkg.com/listr2/-/listr2-3.4.5.tgz#d2ae4d7c39550a2c37c0253431edae1959bac8a5"
-  integrity sha512-hHztBAo6Rzr884tkyNJkItrVlQc0jsnU1qoOgS/Vwy3sJExLJzzq6XUnz8JCG00wOrWmpMTnS+oQ106YPE6Epg==
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/listr2/-/listr2-3.5.0.tgz#09353bbf76b4f97de0b6abf099db2aa3f0ae1ef2"
+  integrity sha512-97a1ZegjnsGIKfU2PtoE/RFrbYTb7bWb5wzq8ikFOVgOwjCjkJhAaJ+lNQEH25YvrzzKRS+522WkR4OZ9mfhdA==
   dependencies:
     chalk "^4.1.0"
     cli-truncate "^2.1.0"

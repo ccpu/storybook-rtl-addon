@@ -12,7 +12,7 @@ import DirectionLTR from './icons/DirectionLTR';
 import DirectionRTL from './icons/DirectionRTL';
 import { getKnobDirection } from './utils';
 
-import { CHANGE, SET } from '@storybook/addon-knobs/dist/shared';
+import { CHANGE, SET } from '@storybook/addon-knobs';
 
 interface PageDirectionProps {
   api: API;
